@@ -107,7 +107,7 @@ ciphervault/
 │   └── src/
 │       ├── pages/        # All React pages
 │       ├── components/   # DashboardLayout
-│       ├── services/     # api.js (axios)
+│       ├── services/     # api.js 
 │       └── context/      # AuthContext.js
 └── .env
 ```
