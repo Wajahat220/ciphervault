@@ -33,16 +33,34 @@ const DES_KEY = crypto
 
 function encryptDES(buffer) {
   const iv = crypto.randomBytes(8);
-  const cipher = crypto.createCipheriv('des-cbc', DES_KEY, iv);
-  const encrypted = Buffer.concat([cipher.update(buffer), cipher.final()]);
-  return Buffer.concat([iv, encrypted]);
+  const cipher = forge.cipher.createCipher(
+    'DES-CBC',
+    forge.util.createBuffer(DES_KEY.toString('binary'))
+  );
+
+  cipher.start({ iv: forge.util.createBuffer(iv.toString('binary')) });
+  cipher.update(forge.util.createBuffer(buffer.toString('binary')));
+  cipher.finish();
+
+  return Buffer.concat([iv, Buffer.from(cipher.output.getBytes(), 'binary')]);
 }
 
 function decryptDES(buffer) {
   const iv = buffer.slice(0, 8);
   const encryptedData = buffer.slice(8);
-  const decipher = crypto.createDecipheriv('des-cbc', DES_KEY, iv);
-  return Buffer.concat([decipher.update(encryptedData), decipher.final()]);
+  const decipher = forge.cipher.createDecipher(
+    'DES-CBC',
+    forge.util.createBuffer(DES_KEY.toString('binary'))
+  );
+
+  decipher.start({ iv: forge.util.createBuffer(iv.toString('binary')) });
+  decipher.update(forge.util.createBuffer(encryptedData.toString('binary')));
+
+  if (!decipher.finish()) {
+    throw new Error('DES decryption failed');
+  }
+
+  return Buffer.from(decipher.output.getBytes(), 'binary');
 }
 
 // ─── SHA-256 Hash ──────────────────────────────────────────────────────────────

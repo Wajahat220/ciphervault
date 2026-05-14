@@ -54,10 +54,9 @@ const uploadFile = async (req, res) => {
     if (privateKeyPem) {
       try {
         digitalSignature = signFile(Buffer.from(fileHash), privateKeyPem);
-      } catch {
-        // signature optional — continue without it
-        console.error("🚨 Signature Generation Failed:", error.message);
-        return res.status(400).json({ message: "Invalid private key format." });
+      } catch (error) {
+        console.error('Signature generation failed:', error.message);
+        return res.status(400).json({ message: 'Invalid private key format.' });
       }
     }
 
@@ -158,6 +157,9 @@ const verifyFile = async (req, res) => {
   try {
     const file = await File.findById(req.params.id);
     if (!file) return res.status(404).json({ message: 'File not found' });
+    if (file.uploadedBy.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
 
     if (!file.digitalSignature) {
       return res.json({ verified: false, message: 'This file has no digital signature.' });
