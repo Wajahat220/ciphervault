@@ -24,8 +24,8 @@ Edit `.env` (already preconfigured for local dev):
 ```
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/ciphervault
-JWT_SECRET=ciphervault_super_secret_jwt_key_2024
-AES_SECRET_KEY=ciphervault_aes_256_secret_key_32ch
+JWT_SECRET=not_your_hashu_@_call_me_hashu
+AES_SECRET_KEY=jojo_the_bizzare_adventure
 ```
 
 ### 3. Start the backend
