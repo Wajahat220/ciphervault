@@ -5,6 +5,8 @@ build/
 client/build/
 test/
 .env
+ciphervault_private_key.pem
 uploads/encrypted/*
+server/uploads/encrypted/*
 !uploads/encrypted/.gitkeep
 *.log
