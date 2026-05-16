@@ -1,3 +1,0 @@
-CipherVault basic upload test.
-AES encryption should protect this file.
-RSA signature should verify correctly.
